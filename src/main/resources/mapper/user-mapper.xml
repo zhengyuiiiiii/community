@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace:此处使用包名+文件名 的形式 -->
+<mapper namespace="com.zhengyu.community.dao.UserMapper">
+
+<!--    &lt;!&ndash;声明一个查询字段可以复用 为哈有错？&ndash;&gt;-->
+<!--    <sql id="selectFields">-->
+<!--        select id,username,password,salt,email,type,status,activation_code,header_url,create_time-->
+<!--    </sql>-->
+<!--    <sql id="insertFields">-->
+<!--        username,password,salt,email,type,status,activation_code,header_url,create_time-->
+<!--    </sql>-->
+
+    <!--select – 映射查询语句
+       id:唯一标识 parameterType:参数类型，此处是根据id查询，类型为int resultType:返回值类型，
+        #{id}： 参数 -->
+    <select id="selectById" resultType="com.zhengyu.community.entity.User">
+        select id,username,password,salt,email,type,status,activation_code,header_url,create_time
+        from user
+        where id = #{id}
+    </select>
+
+    <select id="selectByName" resultType="com.zhengyu.community.entity.User">
+        select id,username,password,salt,email,type,status,activation_code,header_url,create_time
+        from user
+        where username = #{username}
+    </select>
+
+    <select id="selectByEmail" resultType="com.zhengyu.community.entity.User">
+        select id,username,password,salt,email,type,status,activation_code,header_url,create_time
+        from user
+        where email = #{email}
+    </select>
+
+    <!-- insert – 映射插入语句
+      注： sql中参数最好和po中属性命名一致
+     -->
+    <insert id="insertUser" parameterType="com.zhengyu.community.entity.User" keyProperty="id">
+        insert into user(username, password, salt, email, type, status, activation_code, header_url, create_time)
+        values(#{username}, #{password}, #{salt}, #{email}, #{type}, #{status}, #{activationCode}, #{headerUrl}, #{createTime})
+    </insert>
+
+    <!-- update – 映射更新语句 -->
+    <update id="updateStatus">
+        update user set status = #{status} where id = #{id}
+    </update>
+
+    <update id="updateHeader">
+        update user set header_url = #{headerUrl} where id = #{id}
+    </update>
+
+    <update id="updatePassword">
+        update user set password = #{password} where id = #{id}
+    </update>
+
+    <!-- delete – 映射删除语句-->
+    <delete id="deleteProduct" parameterType="int">
+        delete from products where id=#{id}
+    </delete>
+</mapper>
